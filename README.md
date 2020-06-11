@@ -27,7 +27,7 @@ $ nano ~/laravel-app/docker-compose.yml
 * buat file docker-compose.yml di dalam folder laravel-app yang ingin digunakan untuk proses compile dengan semua file yang terhubung
 
 
-Copy file dibawah
+Copy file dibawah:
 ```txt
 version: '3'
 services:
@@ -100,6 +100,7 @@ example :
 ```html
 $ nano ~/laravel-app/Dockerfile
 ```
+Copy file dibawah:
 ```txt
 FROM php:7.2-fpm
 
@@ -157,6 +158,7 @@ Create the php directory :
 $ mkdir ~/laravel-app/php
 $ nano ~/laravel-app/php/local.ini
 ```
+Copy file dibawah:
 ```txt
 upload_max_filesize=40M
 post_max_size=40M
@@ -166,6 +168,7 @@ Create the Nginx directory :
 $ mkdir -p ~/laravel-app/nginx/conf.d
 $ nano ~/laravel-app/nginx/conf.d/app.conf
 ```
+Copy file dibawah:
 ```txt
 server {
     listen 80;
@@ -193,6 +196,7 @@ Create the MySQL directory :
 $ mkdir ~/laravel-app/mysql
 $ nano ~/laravel-app/mysql/my.cnf
 ```
+Copy file dibawah:
 ```txt
 [mysqld]
 general_log = 1
@@ -241,3 +245,7 @@ $ ifconfig
 ```
 Maka akan muncul hasil sebagai berikut :
 ![Gambar portainer and laravel](https://1.bp.blogspot.com/-rbBCHthjKbg/XuJdU82WHbI/AAAAAAAASrU/Vez9Csf-M1Ev7v2G6xKK7iwXaP_m4EYZwCLcBGAsYHQ/s1600/Screenshot%2Bfrom%2B2020-06-11%2B22-01-08.png)
+
+---
+
+--- Terimakasi ---
