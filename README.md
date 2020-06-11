@@ -238,4 +238,4 @@ cek ip :
 $ ifconfig
 ```
 Maka akan muncul hasil sebagai berikut :
-![Gambar Add Endpoint](https://drive.google.com/file/d/1dFbDfYa-cm8OGGq4TvMw7D5azxf9mMWE/view?usp=sharing)
+[Gambar Add Endpoint](https://drive.google.com/file/d/1dFbDfYa-cm8OGGq4TvMw7D5azxf9mMWE/view?usp=sharing)
