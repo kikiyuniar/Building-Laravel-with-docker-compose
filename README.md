@@ -247,5 +247,6 @@ Maka akan muncul hasil sebagai berikut :
 ![Gambar portainer and laravel](https://1.bp.blogspot.com/-rbBCHthjKbg/XuJdU82WHbI/AAAAAAAASrU/Vez9Csf-M1Ev7v2G6xKK7iwXaP_m4EYZwCLcBGAsYHQ/s1600/Screenshot%2Bfrom%2B2020-06-11%2B22-01-08.png)
 
 ---
+Reference : https://www.digitalocean.com/community/tutorials/how-to-set-up-laravel-nginx-and-mysql-with-docker-compose
 
 --- Terimakasi ---
