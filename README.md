@@ -24,7 +24,7 @@ $ sudo chown -R $USER:$USER ~/laravel-app
 ```html
 $ nano ~/laravel-app/docker-compose.yml
 ```
-* buat file docker-compose.yml di dalam folder laravel-app yang ingin digunakan untuk proses compile dengan semua file yang terhubung *
+* buat file docker-compose.yml di dalam folder laravel-app yang ingin digunakan untuk proses compile dengan semua file yang terhubung 
 example:
 ```txt
 version: '3'
