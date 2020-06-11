@@ -4,7 +4,7 @@ build the Laravel Framework with docker-compose and make docker management.
 Post in Linkedin : https://www.linkedin.com/in/kikiyuniar/
 
 Langkah memasang portainer dan docker-compose
-* install [portainer](https://www.portainer.io/) di dalam satu container.
+* install [portainer](https://www.portainer.io/) di dalam satu container dan docker-compose.
 example:
 
 ```html  
@@ -93,4 +93,149 @@ volumes:
     driver: local
 ```
 ### Step 3 Creating the Dockerfile
+Dockerfile is a file that is used to create container images.
+example :
+```html
+$ nano ~/laravel-app/Dockerfile
+```
+```txt
+FROM php:7.2-fpm
 
+# Copy composer.lock and composer.json
+COPY composer.lock composer.json /var/www/
+
+# Set working directory
+WORKDIR /var/www
+
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    libpng-dev \
+    libjpeg62-turbo-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    vim \
+    unzip \
+    git \
+    curl
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install extensions
+RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
+RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
+RUN docker-php-ext-install gd
+
+# Install composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Add user for laravel application
+RUN groupadd -g 1000 www
+RUN useradd -u 1000 -ms /bin/bash -g www www
+
+# Copy existing application directory contents
+COPY . /var/www
+
+# Copy existing application directory permissions
+COPY --chown=www:www . /var/www
+
+# Change current user to www
+USER www
+
+# Expose port 9000 and start php-fpm server
+EXPOSE 9000
+CMD ["php-fpm"]
+```
+### Step 4 Configuring PHP, NginX, MySQL
+Create the php directory :
+```html
+$ mkdir ~/laravel-app/php
+$ nano ~/laravel-app/php/local.ini
+```
+```txt
+upload_max_filesize=40M
+post_max_size=40M
+```
+Create the Nginx directory :
+```html
+$ mkdir -p ~/laravel-app/nginx/conf.d
+$ nano ~/laravel-app/nginx/conf.d/app.conf
+```
+```txt
+server {
+    listen 80;
+    index index.php index.html;
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+    root /var/www/public;
+    location ~ \.php$ {
+        try_files $uri =404;
+        fastcgi_split_path_info ^(.+\.php)(/.+)$;
+        fastcgi_pass app:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PATH_INFO $fastcgi_path_info;
+    }
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+        gzip_static on;
+    }
+}
+```
+Create the MySQL directory :
+```html
+$ mkdir ~/laravel-app/mysql
+$ nano ~/laravel-app/mysql/my.cnf
+```
+```txt
+[mysqld]
+general_log = 1
+general_log_file = /var/lib/mysql/general.log
+```
+### Step 8 Modifying Environment Settings and Running the Containers
+Sebagai langkah terakhir kita akan membuat salinan file ( .env.example ) yang Laravel sertakan secara default dan beri nama copy ( .env, ) yang merupakan file yang diharapkan oleh Laravel untuk mendefinisikan jaringannya:
+>Catatan: Masuk ke dalam directory laravel-app
+```html
+$ cd ~/laravel-app
+$ cp .env.example .env
+$ nano .env
+```
+ikuti dan ubah sesuai dengan contoh dibawah ini :
+```txt
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=laravel
+DB_USERNAME=laraveluser
+DB_PASSWORD=your_laravel_db_password
+```
+Menjalankan file docker-compose.yml yang ada di directory laravel-app
+```html
+$ docker-compose up -d
+```
+
+mengecek container yang sedang berjalan:
+```html
+$ docker ps
+```
+```txt
+CONTAINER ID        IMAGE                  COMMAND                  CREATED             STATUS              PORTS                                      NAMES
+416608aadf83        mysql:5.7.22           "docker-entrypoint.s…"   4 hours ago         Up 4 hours          0.0.0.0:3306->3306/tcp                     db
+50134ed3453a        digitalocean.com/php   "docker-php-entrypoi…"   4 hours ago         Up 4 hours          9000/tcp                                   app
+974d569b29ba        nginx:alpine           "/docker-entrypoint.…"   4 hours ago         Up 4 hours          0.0.0.0:80->80/tcp, 0.0.0.0:443->443/tcp   webserver
+1b05155a7a47        portainer/portainer    "/portainer"             5 hours ago         Up 5 hours          0.0.0.0:860->9000/tcp                      youthful_turing
+```
+### Step Terakhir untuk mencoba membuka dari hasil yang telah dilakukan di step sebelum-sebelumnya.
+buka http://alamat_ip_address:port atau http://localhost:port anda.
+lalu jika ingin membuka alamat [Laravel](https://laravel.com/) : http://localhost:80 .
+Jika ingin membuka manajemen docker [Portainer](https://www.portainer.io/) : http://localhost:860 .
+cek ip :
+```html
+$ ifconfig
+```
+Maka akan muncul hasil sebagai berikut :
+![Gambar Add Endpoint](https://drive.google.com/file/d/1dFbDfYa-cm8OGGq4TvMw7D5azxf9mMWE/view?usp=sharing)
