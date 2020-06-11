@@ -1,5 +1,5 @@
 # Building-Laravel-with-docker-compose
-![image laravel with docker](https://1.bp.blogspot.com/-y3LjMdXNZ5E/XuJt4xV0ClI/AAAAAAAASrg/ctGSeB6tmHcQT1RlWNm_YQqSaexD50eXQCLcBGAsYHQ/s1600/docker-laravel.jpg)
+![image laravel with docker](https://1.bp.blogspot.com/-bayfEBcOjHI/XuJw-VybBjI/AAAAAAAASrs/RCBqg9IULqoclJyknsw-URlJOekOjw3CACLcBGAsYHQ/s1600/WhatsApp%2BImage%2B2020-06-12%2Bat%2B00.58.35.jpeg)
 build the Laravel Framework with docker-compose and make docker management.
 
 Post in Linkedin : https://www.linkedin.com/in/kikiyuniar/
